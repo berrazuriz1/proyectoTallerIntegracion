@@ -6,7 +6,6 @@ require('dotenv').config();
 
 function hashHCMA (method, almacenId){
   var text = method + almacenId
-  console.log(text)
   hmac = crypto.createHmac("sha1", process.env.Clave_Privada);
   hmac.update(text);
   var hash = hmac.digest('base64')
@@ -24,14 +23,16 @@ router.get('stock', '/', async (ctx) => {
         'Authorization': 'INTEGRACION grupo11:' + hashHCMA("GET", "")
     }
   }
-
-  request(options).then(function (response){
-      console.log(response);
-      ctx.body.almacenes = response
-      })
+  var res = {}
+  await request(options).then(function (response){
+    console.log(response)
+    res.almacenes = response
+    })
   .catch(function (err) {
-      console.log(err);
+    res.error = err
   })
+  console.log(res);
+  ctx.body = res
 });
 
 module.exports = router;
