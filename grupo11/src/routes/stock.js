@@ -28,12 +28,10 @@ router.get('stock', '/', async (ctx) => {
   request(options).then(function (response){
       console.log(response);
       ctx.body.almacenes = response
-      });
-  })
+      })
   .catch(function (err) {
       console.log(err);
   })
-
 });
 
 module.exports = router;
